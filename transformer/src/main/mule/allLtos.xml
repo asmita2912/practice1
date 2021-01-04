@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="950b1e19-362b-41d0-9168-07bbabb99760" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="transformerFlow" doc:id="1933bce9-dfd4-4d4c-9eb2-8d4a2a882ed9" >
+		<http:listener doc:name="Listener" doc:id="bc11c06f-24be-4c3d-9530-ddc2ba2dc608" config-ref="HTTP_Listener_config" path="/all"/>
+		<ee:transform doc:name="Transform Message" doc:id="ba4aa7f5-acb0-42da-ae22-182a6751be70" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+if(payload != null) payload map (value, index) -> {
+	
+	"count" : value.Count,
+    
+	"results" : {(value.Results map (subvalue, subindex) -> {
+		"ltoId" : subvalue.Id,
+	    "name" : subvalue.Name ,
+	    "effectiveStartDate" : subvalue.EffectiveStartDate ,
+	    "effectiveEndDate" : subvalue.EffectiveEndDate ,
+	    "status" : subvalue.Status ,
+	    "pricingBeginDate" : subvalue.PricingBeginDate , 
+	    "pricingEndDate" : subvalue.PricingEndDate , 
+	}
+	
+	)}
+}
+else {}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="ffc5d08f-8aae-4fd6-a46e-bfd14593f11b" />
+	</flow>
+</mule>
