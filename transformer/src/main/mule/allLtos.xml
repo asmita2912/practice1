@@ -35,5 +35,6 @@ else {}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="ffc5d08f-8aae-4fd6-a46e-bfd14593f11b" />
+		<logger level="INFO" doc:name="Logger" doc:id="3dbf3e00-ee58-44fa-8a36-8ad129fa2bcd" />
 	</flow>
 </mule>
