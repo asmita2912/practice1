@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="azurePracticeFlow" doc:id="2b069ac8-1ed6-418f-a56c-c5e8ace8481e" >
+		<http:listener doc:name="Listener" doc:id="8b81a763-74f3-41fa-9db0-51c584494285" config-ref="HTTP_Listener_config" path="/prac"/>
+		<ee:transform doc:name="Transform Message" doc:id="16d64f69-acb7-4672-9ce9-f1803cbf34c0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e5afc2ed-1391-417a-a8f9-8c9aa7c2c852" />
+	</flow>
+</mule>
